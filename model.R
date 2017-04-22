@@ -5,7 +5,7 @@ czasOrg = c(7,10,18,4,10,13,21,12,9,65,20,31,23,22,13,9,50,12,11,8,26,16,23,7,11
 file= read.table("data.csv")
 #data <- file[-c(10,17,31,48,33,53,13,47,43,1,37,24,2,30,8,27,16),]
 #data <- file[-c(10,17,13,32,39,52),]
-data <-file
+#data <-file[-c(10)]
 lek = data[,1]
 sbp = data[,2]
 czas = data[,3]
@@ -17,14 +17,17 @@ xtx = t(X)%*%X
 A = solve(xtx)%*%t(X)%*%Y
 model =A[1]+ A[2]*lek + A[3]*sbp
 
-wariancja = sum((czas-model)^2)/(NROW(model)-2-1)
-odchylenie = sqrt(wariancja)
+
 
 SSR = t(model-mean(Y))%*%(model-mean(Y))
 SSE = (Y - model)%*%(Y-model)
 SST = t(Y-mean(Y))%*%(Y-mean(Y))
 R2 = SSR/SST
 R2a = 1-((1-R2)*(NROW(model)-1)/(NROW(model)-2-1))
+
+
+wariancja = SSE/(NROW(model)-2-1)
+odchylenie = sqrt(wariancja)
 
 res = Y-model;
 sum_res = sum(res)
@@ -38,9 +41,9 @@ naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res'
 wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie, f )
 write.table(cbind(naglowek, wyniki),"",row.names = F)
 
-plot(model,res, col = ifelse(abs(res) >(1*odchylenie),'red','green'))
+plot(model,res, col = ifelse(abs(res) >(2*odchylenie[1,1]),'red','green'))
 text(model,res, labels=1:NROW(res),cex= 0.7, pos=2)
 
 
-plot(Y,res, col = ifelse(abs(res) >(1*odchylenie),'red','green'))
-text(Y,res, labels=1:NROW(res),cex= 0.7, pos=4)
+#plot(Y,res, col = ifelse(abs(res) >(2*odchylenie),'red','green'))
+#text(Y,res, labels=1:NROW(res),cex= 0.7, pos=4)
