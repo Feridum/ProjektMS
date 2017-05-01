@@ -52,6 +52,11 @@ write.table(cbind(naglowek, wyniki),"",row.names = F)
 plot(model,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
 text(model,res, labels=1:NROW(res),cex= 0.7, pos=2)
 
+plot(model,res^2, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
+text(model,res^2, labels=1:NROW(res),cex= 0.7, pos=2)
 
-plot(Y,res, col = ifelse(abs(res) >(2*odchylenie[1,1]),'red','green'))
+plot(Y,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
 text(Y,res, labels=1:NROW(res),cex= 0.7, pos=4)
+
+plot(Y,res^2, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
+text(Y,res^2, labels=1:NROW(res),cex= 0.7, pos=4)
