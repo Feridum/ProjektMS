@@ -6,16 +6,16 @@ data = read.table("data.csv")
 #data <- file[-c(10,17,31,48,33,53,13,47,43,1,37,24,2,30,8,27,16),]
 #data <- file[-c(10,17,13,32,39,52),]
 #data <-file[-c(10)]
-lek = data[,1]
-sbp = data[,2]
-czas = data[,3]
+lek = (data[,1])
+sbp = (data[,2])
+czas = (data[,3])
 
 
 X = cbind(1,lek,sbp)
 Y = czas
 xtx = t(X)%*%X
 A = solve(xtx)%*%t(X)%*%Y
-model =A[1]+ A[2]*log(lek) + A[3]*log(sbp)
+model =A[1]+ A[2]*lek + A[3]*sbp
 
 
 
@@ -35,15 +35,23 @@ mean_res = mean(res)
 
 f = (SSR/2)/(SSE/(NROW(model)-2-1))
 
+D = max(abs(Y-model))
 
+
+for (t in 2:NROW(model))
+{
+  licznik = (res[t]-res[t-1])^2
+}
+
+dw = licznik/sum(res^2)
 
 naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'F')
 wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie, f )
 write.table(cbind(naglowek, wyniki),"",row.names = F)
 
-plot(model,res, col = ifelse(abs(res) >(2*odchylenie[1,1]),'red','green'))
+plot(model,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
 text(model,res, labels=1:NROW(res),cex= 0.7, pos=2)
 
 
-#plot(Y,res, col = ifelse(abs(res) >(2*odchylenie),'red','green'))
-#text(Y,res, labels=1:NROW(res),cex= 0.7, pos=4)
+plot(Y,res, col = ifelse(abs(res) >(2*odchylenie[1,1]),'red','green'))
+text(Y,res, labels=1:NROW(res),cex= 0.7, pos=4)
