@@ -20,7 +20,7 @@ model =A[1]+ A[2]*lek + A[3]*sbp
 
 
 SSR = t(model-mean(Y))%*%(model-mean(Y))
-SSE = (Y - model)%*%(Y-model)
+SSE = t((Y - model))%*%(Y-model)
 SST = t(Y-mean(Y))%*%(Y-mean(Y))
 R2 = SSR/SST
 R2a = 1-((1-R2)*(NROW(model)-1)/(NROW(model)-2-1))
