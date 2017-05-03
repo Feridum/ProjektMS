@@ -37,16 +37,17 @@ f = (SSR/2)/(SSE/(NROW(model)-2-1))
 
 D = max(abs(Y-model))
 
+licznik =0;
 
 for (t in 2:NROW(model))
 {
-  licznik = (res[t]-res[t-1])^2
+  licznik = licznik+(res[t]-res[t-1])^2
 }
 
 dw = licznik/sum(res^2)
 
-naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'F')
-wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie, f )
+naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'F', 'D', 'dw')
+wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie, f, D,dw )
 write.table(cbind(naglowek, wyniki),"",row.names = F)
 
 plot(model,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
