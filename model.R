@@ -30,6 +30,16 @@ res = Y-model;
 sum_res = sum(res)
 mean_res = mean(res)
 
+dplus= c();
+dminus= c();
+dys_nor = pnorm(sort(res))
+n = NROW(res)
+for(i in 1:n){
+  dplus = append(dplus,abs(i/n-dys_nor[i]))
+  dminus= append(dminus,abs(dys_nor[i]-(i-1)/n))
+}
+
+D = max(max(dplus),max(dminus))
 
 licznik =0;
 
@@ -40,8 +50,8 @@ for (t in 2:NROW(model))
 
 dw = licznik/sum(res^2)
 
-naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'dw')
-wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie,dw )
+naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'dw','D')
+wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie,dw,D )
 write.table(cbind(naglowek, wyniki),"",row.names = F)
 
 plot(model,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
