@@ -3,9 +3,6 @@ sbpOrg = c(66,52,72,67,69,71,88,68,59,73,68,58,61,68,69,55,67,67,68,59,68,63,65,
 czasOrg = c(7,10,18,4,10,13,21,12,9,65,20,31,23,22,13,9,50,12,11,8,26,16,23,7,11,8,14,39,28,12,60,10,60,22,21,14,4,27,26,28,15,8,46,24,12,25,45,72,25,28,10,25,44)
 
 data = read.table("data.csv")
-#data <- file[-c(10,17,31,48,33,53,13,47,43,1,37,24,2,30,8,27,16),]
-#data <- file[-c(10,17,13,32,39,52),]
-#data <-file[-c(10)]
 lek = (data[,1])
 sbp = (data[,2])
 czas = (data[,3])
@@ -33,9 +30,6 @@ res = Y-model;
 sum_res = sum(res)
 mean_res = mean(res)
 
-f = (SSR/2)/(SSE/(NROW(model)-2-1))
-
-D = max(abs(Y-model))
 
 licznik =0;
 
@@ -46,8 +40,8 @@ for (t in 2:NROW(model))
 
 dw = licznik/sum(res^2)
 
-naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'F', 'D', 'dw')
-wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie, f, D,dw )
+naglowek = c('A0', 'A lek', 'A sbp', 'SSR', 'SSE', 'SST', 'R2','R2a',  'sum res', 'avg res', 'wariancja', 'odchylenie', 'dw')
+wyniki = c(A[1], A[2], A[3], SSR, SSE, SST, R2, R2a,sum_res, mean_res, wariancja, odchylenie,dw )
 write.table(cbind(naglowek, wyniki),"",row.names = F)
 
 plot(model,res, col = ifelse(abs(res) >(3*odchylenie[1,1]),'red','green'))
